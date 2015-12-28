@@ -1,0 +1,224 @@
+<!--7-->
+<project name="vcdstore" default="all" basedir="." >
+	<property name="main" value="src/main"/>
+	<property name="test" value="src/test"/>
+    <property name="seleniumtest" value="src/selenium"/>
+
+	<property name="build.dir" value="target" />
+    <property name="reports.dir" value="${build.dir}/reports" />
+	<property name="dist.dir" value="dist" />
+	<property name="war.dir" value="${build.dir}/war" />
+
+	<property name="app.classes.dir" value="${war.dir}/WEB-INF/classes" />	
+    <property name="selenium.classes.dir" value="${build.dir}/selenium-test-classes" />  
+	<property name="war.src.dir" value="webapp" />	
+	<property name="product.lib" value="${basedir}/lib/main"/>
+	<property name="compile.lib" value="${basedir}/lib/compile"/>
+	<property name="test.lib" value="${basedir}/lib/test"/>
+    <property name="selenium.lib" value="${basedir}/lib/selenium"/>
+	<path id="lib.classpath">
+		<fileset dir="${product.lib}" includes="**/*.jar"/>
+		<fileset dir="${compile.lib}" includes="**/*.jar"/>
+	</path>
+	<path id="app.classpath">
+		<path refid="lib.classpath" />
+		<pathelement path="${app.classes.dir}" />
+	</path>
+    <path id="test.classpath">
+        <path refid="app.classpath" />
+        <pathelement path="${test.classes.dir}" />
+        <pathelement path="${war.src.dir}" />
+        <fileset dir="${test.lib}" includes="**/*.jar"/>
+    </path>
+	<property environment="env"/>
+    <path id="seleniumtest.classpath">
+        <path refid="test.classpath" />
+        <pathelement path="${selenium.classes.dir}" />
+        <fileset dir="${selenium.lib}" includes="**/*.jar"/>
+<!--
+        <fileset dir="${compile.lib}" includes="**/*.jar"/>
+-->
+    </path>
+    <macrodef name="start.jetty.server">
+        <sequential>
+            <echo message="stopping any running jetty server"/>
+            <waitfor maxwait="10" maxwaitunit="second" checkevery="500">
+                <not>
+                    <http url="http://localhost:9090/vcdstore/" />
+                </not>
+            </waitfor>
+            <echo message="starting jetty server"/>
+            <parallel>
+                <daemons>
+                    <java classname="com.thoughtworks.seleniumtest.testhelper.WebTestingServer" fork="true">
+                        <classpath refid="seleniumtest.classpath" />
+                    </java>
+                </daemons>
+                <waitfor maxwait="60" maxwaitunit="second" checkevery="500" timeoutproperty="jetty.server.start.timeout">
+                    <http url="http://localhost:9090/vcdstore/" />
+                </waitfor>
+            </parallel>
+            <fail if="jetty.server.start.timeout" message="Unable to start jetty server." />
+        </sequential>
+    </macrodef>
+	
+    <macrodef name="stop.jetty.server">
+        <sequential>
+            <waitfor maxwait="10" maxwaitunit="second" checkevery="500">
+                <not>
+                    <http url="http://localhost:9090/vcdstore/jetty/stop" />
+                </not>
+            </waitfor>
+        </sequential>
+    </macrodef>
+    <macrodef name="run.functional.tests">
+        <sequential>
+            <mkdir dir="${reports.dir}" />
+            <junit printsummary="yes" fork="true" failureproperty="functional.test.failed" dir="${basedir}">
+                <classpath refid="seleniumtest.classpath" />
+                <formatter type="brief" usefile="false" />
+                <formatter type="xml" />
+                <batchtest todir="${reports.dir}">
+                    <fileset dir="${build.dir}/selenium-test-classes" includes="**/*Test.class"/>
+                </batchtest>
+            </junit>
+        </sequential>
+    </macrodef>
+  <target name="environment">
+     <echo message="${env.CRUISE_SERVER_URL}"/>
+     <echo message="${env.CRUISE_PIPELINE_LABEL}"/>
+     <echo message="${env.CRUISE_PIPELINE_NAME}"/>
+     <echo message="${env.CRUISE_STAGE_NAME}"/>
+     <echo message="${env.CRUISE_BUILD_NAME}"/>
+  </target>
+	<target name="all" depends="clean, compile, unit.test, jar, war"/>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${build.dir}/classes"/>
+        <javac srcdir="${main}" destdir="${build.dir}/classes" classpathref="lib.classpath">
+		</javac>
+    </target>
+    <target name="fail" depends="compile,sleep">
+      <fail/>
+    </target>
+    <target name="unit.test" depends="compile">
+        <!--sleep minutes ="5" /-->
+        <mkdir dir="${build.dir}/test-classes"/>
+        <javac srcdir="${test}" destdir="${build.dir}/test-classes" >
+            <classpath>
+                <pathelement location="${build.dir}/classes"/>
+                <path refid="test.classpath"/>
+            </classpath>
+        </javac>
+        <mkdir dir="${build.dir}/test-results"/>
+        <junit haltonfailure="yes" printsummary="on">
+            <classpath >
+                <pathelement location="${build.dir}/classes"/>
+                <pathelement location="lib/test/junit-4.4.jar"/>
+                <pathelement location="${build.dir}/test-classes"/>
+            </classpath>
+            <formatter type="brief" usefile="false"/>
+            <formatter type="xml" />
+            <batchtest todir="${build.dir}/test-results" >
+                <fileset dir="${build.dir}/test-classes" includes="**/*Test.class"/>
+            </batchtest>
+        </junit>
+    </target>
+    <target name="selenium-test-compile" depends="compile">
+        <mkdir dir="${build.dir}/selenium-test-classes"/>
+        <javac srcdir="${seleniumtest}" destdir="${selenium.classes.dir}" >
+            <classpath>
+                <pathelement location="${build.dir}/selenium-test-classes"/>
+                <path refid="seleniumtest.classpath"/>
+            </classpath>
+        </javac>
+    </target>
+
+	
+    <target name="jar" depends="compile">
+    	<jar jarfile="${build.dir}/vcdstore.jar" basedir="${build.dir}/classes"/>
+    </target>
+
+	<target name="-copy.resources.web" depends="compile">
+		<mkdir dir="${war.dir}" />
+		<copy todir="${war.dir}">
+			<fileset dir="${war.src.dir}">
+				<exclude name="**/classes/**" />
+			</fileset>
+		</copy>
+		<copy todir="${war.dir}/WEB-INF/classes">
+			<fileset dir="${build.dir}/classes">
+			</fileset>
+		</copy>
+	</target>
+  <target name="sleep">
+  <!--sleep minutes="5"/-->
+  </target>
+  <target name="sleep5">
+  <sleep minutes="5"/>
+  </target>
+  <target name="sleep10">
+  <sleep minutes="10"/>
+  </target>
+  <target name="sleep20">
+  <sleep minutes="20"/>
+  </target>
+	<target name="war" depends="-copy.resources.web,sleep">
+		<mkdir dir="${dist.dir}" />    
+		<manifest file="${war.dir}/MANIFEST.MF">
+			<attribute name="VCDStore-Version" value="0.1" />
+		</manifest>
+		<war destfile="${dist.dir}/vcdstore.war" webxml="${war.dir}/WEB-INF/web.xml" duplicate="preserve" manifest="${war.dir}/MANIFEST.MF">
+			<fileset dir="${war.dir}">
+				<exclude name="**/applicationContext-development.xml" />
+				<exclude name="javascripts/*.js" />
+			</fileset>
+			<lib dir="${build.dir}">
+				<include name="vcdstore.jar" />
+			</lib>
+			<lib dir="${product.lib}">
+				<include name="**/*.jar" />
+			</lib>
+		</war>
+    </target>
+
+	<target name="selenium.test" depends="--prepare.functional.tests, -start.selenium.server, -start.selenium.functional.testing.server, -prepare.functional.test.property, -selenium.tests, -stop.selenium.server, -stop.selenium.functional.testing.server" />
+    <target name="--prepare.functional.tests" depends="compile, selenium-test-compile, war" />
+	<target name="-stop.selenium.server" unless="test.skip">
+        <waitfor maxwait="10" maxwaitunit="second" checkevery="500">
+            <not>
+                <http url="http://localhost:4444/selenium-server/driver/?cmd=shutDown" />
+            </not>
+        </waitfor>
+    </target>
+
+    <target name="-start.selenium.server">
+        <java jar="lib/selenium/selenium-server.jar" fork="true" spawn="true">
+            <arg line="-timeout 30" />
+        </java>
+        <waitfor maxwait="1" maxwaitunit="minute" checkevery="1" checkeveryunit="second">
+            <socket server="localhost" port="4444" />
+        </waitfor>
+    </target>
+	
+    <target name="-start.selenium.functional.testing.server">
+        <start.jetty.server />
+    </target>
+    <target name="-prepare.functional.test.property">
+        <property name="functional.test" value="*Test" />
+    </target>
+    <target name="-selenium.tests">
+        <run.functional.tests />
+    </target>
+    <target name="-stop.selenium.functional.testing.server">
+        <stop.jetty.server />
+    </target>
+    <target name="-check.selenium.testing.result" if="functional.test.failed">
+        <fail message="selenium tests failed" />
+    </target>
+	
+</project>

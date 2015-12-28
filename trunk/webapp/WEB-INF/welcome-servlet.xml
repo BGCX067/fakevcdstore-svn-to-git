@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+    <bean id="velocityConfig"
+          class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath" value="/WEB-INF/vm" />
+    </bean>
+ 
+    <bean id="velocityViewResolver"
+          class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+        <property name="cache" value="true" />
+        <property name="prefix" value="" />
+        <property name="suffix" value=".vm" />
+        <property name="exposeSpringMacroHelpers" value="true" />
+        <property name="requestContextAttribute" value="req"/>
+        <property name="order" value="2" />
+        <property name="toolboxConfigLocation" value="/WEB-INF/toolbox.xml" />
+    </bean>
+
+    <bean id="beanNameViewResolver"
+          class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="1" />
+    </bean>
+
+	<!--Request Mapping -->
+    <bean id="welcomeUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/">welcomeController</prop>
+                <prop key="/userLogin.action">welcomeController</prop>
+            </props>
+        </property>
+    </bean>
+
+	<!---Action Definition-->
+    <bean id="welcomeController" class="com.thoughtworks.qa.vcdstore.web.WelcomeController">
+    </bean>
+</beans>

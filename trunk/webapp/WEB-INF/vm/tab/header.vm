@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <link href="/css/main.css" rel="stylesheet" type="text/css"></link>
+        <!--[if lte IE 7]>
+            <link href="/css/ie_hacks.css" rel="stylesheet" type="text/css"></link>
+        <![endif]-->
+        <link href="/css/niftyCorners.css" rel="stylesheet" type="text/css"></link>
+    #foreach( $cssFile in $cssFiles )
+        <link href="/$cssFile" rel="stylesheet" type="text/css"/>
+    #end
+        <script type="text/javascript">
+            var contextPath = "$req.getContextPath()"
+        </script>
+        <title>Welcome, ${userName}</title>
+    </head>
+<body>
+    <div id="header">
+        <div id="menu">
+            <div id="pageTitle">
+                Cool Dog VCD Store 
+            </div>
+            <div id="logo">
+               <img src="$req.getContextPath()/images/logo.gif" alt="Cool Dog" width="195" height="42"/>
+            </div>
+        </div>
+        <div id="menu_bottom">
+        </div>
+    </div>
+    <div id="content">

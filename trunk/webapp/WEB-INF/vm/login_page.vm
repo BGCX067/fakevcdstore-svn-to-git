@@ -1,0 +1,11 @@
+
+<div id="bd">
+<form method="post" action="userLogin.action">
+<p align="left">login</p>
+<br>
+user name :<input type="text" name="userName" value="${userName}"> <br>
+<p><input type="submit" value="commit" name="commit"></p>
+</form>
+</div>
+<!-- end bd -->
+

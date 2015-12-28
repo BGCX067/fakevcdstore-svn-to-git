@@ -1,0 +1,995 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Cruise1.0配置文件说明</title>
+  <style type="text/css" media="all">
+    @import "stylesheets/reset-fonts-grids.css";
+    @import "stylesheets/cruise.css";
+  </style>
+</head>
+<body>
+  <div id="main-content">
+    <h1 id="top">Cruise1.0配置文件说明</h1>
+    <div class="config-file">
+      <div>
+        <a href="#cruise">&lt;cruise&gt;</a>
+        <div>
+          <a href="#server">&lt;server&gt;</a>
+          <div>
+            <a href="#license">&lt;license/&gt;</a>
+            <a href="#security">&lt;security&gt;</a>
+            <div>
+              <a href="#ldap">&lt;ldap/&gt;</a>
+              <a href="#passwordFile">&lt;passwordFile/&gt;</a>
+              <a href="#admins">&lt;admins&gt;</a>
+              <div>
+                  <a href="#user">&lt;user/&gt;</a>
+              </div>  
+              &lt;/admins&gt;
+            </div>
+            &lt;/security&gt;
+          </div>
+          &lt;/server&gt;
+        </div>
+        <div>
+          <a href="#pipelines">&lt;pipelines&gt;</a>
+          <div>
+            <a href="#pipeline">&lt;pipeline&gt;</a>
+              <div>
+                <a href="#dependencies">&lt;dependencies&gt;</a>
+                <div>
+                  <a href="#depends">&lt;depends/&gt;</a>
+                </div>
+                &lt;/dependencies&gt;
+              </div>
+              <div>
+                <a href="#materials">&lt;materials&gt;</a>
+                <div>
+                  <a href="#svn">&lt;svn/&gt;</a>
+                  <a href="#hg">&lt;hg/&gt;</a>
+                </div>
+                &lt;/materials&gt;
+              </div>
+              <div>
+              <a href="#stage">&lt;stage&gt;</a>
+
+              <div>
+                <a href="#jobs">&lt;jobs&gt;</a>
+                <div>
+                  <a href="#job">&lt;job&gt;</a>
+                  <div>
+                    <a href="#resources">&lt;resources&gt;</a>
+                    <div>
+                      <a href="#resource">&lt;resource/&gt;</a>
+                    </div>
+                    &lt;/resources&gt;
+                  </div>
+                  <div>
+                    <a href="#tasks">&lt;tasks&gt;</a>
+                    <div>
+                      <a href="#ant">&lt;ant/&gt;</a>
+                      <a href="#nant">&lt;nant/&gt;</a>
+                      <a href="#rake">&lt;rake/&gt;</a>
+                      <a href="#exec">&lt;exec/&gt;</a>
+                    </div>
+                    &lt;/tasks&gt;
+                  </div>
+                  <div>
+                    <a href="#artifacts">&lt;artifacts&gt;</a>
+                    <div>
+                      <a href="#artifact">&lt;artifact/&gt;</a>
+                      <a href="#test">&lt;test/&gt;</a>
+                    </div>
+                    &lt;/artifacts&gt;
+                  </div>
+                  <div>
+                    <a href="#tabs">&lt;tabs&gt;</a>
+                    <div>
+                      <a href="#tab">&lt;tab/&gt;</a>
+                    </div>
+                    &lt;/tabs&gt;
+                  </div>
+                  &lt;/job&gt;
+                </div>    
+                &lt;/jobs&gt;
+              </div>
+              <div>
+                <a href="#approval">&lt;approval/&gt;</a>
+              </div>
+              &lt;/stage&gt;
+            </div>
+            &lt;/pipeline&gt;
+          </div>
+          &lt;/pipelines&gt;
+        </div>
+
+        <div>
+          <a href="#agents">&lt;agents&gt;</a>
+          <div>
+            <a href="#agent">&lt;agent&gt;</a>
+            <div>
+              <a href="#agentresources">&lt;resources&gt;</a>
+              <div>
+                <a href="#agentresource">&lt;resource/&gt;</a>
+              </div>
+              &lt;/resources&gt;
+            </div>
+            &lt;/agent&gt;
+          </div>
+          &lt;/agents&gt;
+        </div>
+        &lt;/cruise&gt;
+      </div>
+    </div>
+
+    <a class="goto-top" href="#top">top</a>
+    
+    <h1>Configuration reference</h1> 
+    
+    <div id="cruise" class="section">
+      <h2>&lt;cruise&gt;</h2>
+      <p>&lt;cruise&gt;元素是配置文件的根元素。</p>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="server" class="section">
+      <h2>&lt;server&gt;</h2>
+      <p> &lt;server&gt; 用于定义Cruise Server的相关信息与属性。</p>
+    
+      <h3>属性集合</h3>
+      <table class="documentation">
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>artifactsdir</td>
+            <td>否</td>
+            <td>Cruise保存所有构建信息的目录。<strong>默认值</strong>是Cruise Server安装目录下的 log 目录。你也可以指定绝对路径或相对路径。如果是相对路径的话，该目录应相对于Cruise Server的安装目录。<strong>注意：</strong> 如果您自行设定了该目录，请确保Cruise对该目录拥有全部权限。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="license" class="section">
+      <h2>&lt;license&gt;</h2>
+      <p> &lt;license&gt; 元素用于保存您得到的Cruise license。如果您还没有的话，请访问<a href="http://studios.thoughtworks.com/cruise">Cruise</a> 申请一个。Cruise提供试用版和免费版的License。</p>
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>user</td>
+            <td>是</td>
+            <td>您获得的license时使用的用户名，可在您得到的Email中查找。</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>示例</h3>
+          <pre class="code">&lt;license user="${您获得的license中的用户名}"&gt;
+  ${您获得的license中的那段文本}
+&lt;/license&gt;
+          </pre>
+      
+    </div>
+    <a class="goto-top" href="#top">top</a>
+
+    <div id="security" class="section">
+      <h2>&lt;security&gt;</h2>
+      <p>&lt;security&gt; 用于配置Cruise的安全管理。如果该元素不存在，任何可访问Cruise的人都可以对Cruise进行配置或修改。现在Cruise支持LDAP和简单的文本文件。如果你愿意的话，你可以同时使用这两个子元素。如果在您的Cruise用户中，很多人都不在LDAP服务器上有账号的话，简单的文本文件就很方便啦。</p>
+      </div>
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="ldap" class="section">
+      <h2>&lt;ldap&gt;</h2>
+      <p>&lt;ldap&gt;元素用于指定LDAP服务器。指定该元素后，用户要用其在LDAP服务器上的用户名和密码来登录Cruise。具体如何设置，请询问您所在组织的IS部门。</p>
+      
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>uri</td>
+            <td>是</td>
+            <td>LDAP服务器的uri。例如，uri="ldap://xxx.yourcompany.com"</td>
+          </tr>
+          <tr class="even">
+            <td>managerDn</td>
+            <td>是</td>
+            <td>例如，managerDn="cn=Active Directory Ldap
+User,ou=InformationSystems,ou=SharedAccounts,ou=Principal,dc=xxxxx,dc=yyyy,dc=com"</td>
+          </tr>
+          <tr class="odd">
+            <td>managerPassword</td>
+            <td>是</td>
+            <td>Cruise用这个密码与LDAP服务器进行交互。</td>
+          </tr>
+          <tr class="even">
+            <td>searchBase</td>
+            <td>是</td>
+            <td>例如， searchBase="ou=Employees,ou=Enterprise,ou=Principal,dc=xxxx,dc=yyyy,dc=com"</td>
+          </tr>
+          <tr class="odd">
+            <td>searchFilter</td>
+            <td>否</td>
+            <td>例如，searchFilter="(sAMAccountName={0})"</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="passwordFile" class="section">
+      <h2>&lt;passwordFile&gt;</h2>
+      <p>
+&lt;passwordFile&gt; 元素用于指定包含一个或多个用户名－密码对的文本文件。其中，密码是经过SHA1方式加密后的文本，一个用户对应一行。</p>
+
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>path</td>
+            <td>是</td>
+            <td>The absolute path of the password file.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>示例</h3>
+          <p>假如文件名是<strong>admins.properties</strong>，放在目录 <strong>/home/cruise</strong>下。其中有两个用户，：
+      </p><ol>
+          <li>一个用户名为 <strong>Jez</strong>，加密后的密码是<strong>ThmbShxAtJepX80c2JY1FzOEmUk=</strong></li>
+          <li>另一个用户名为<strong>lqiao</strong>，加密后的密码是<strong>TfkgShslgJepX80c2JY1trwEskT=</strong></li>
+      </ol>
+      <p>那么，配置就如下所示：</p>
+          <pre class="code">&lt;security&gt;
+  &lt;passwordFile path="/home/cruise/admins.properties"/&gt;
+&lt;/security&gt;
+          </pre>
+      <p>在admins.properties文件中，用户名和密码对的格式如下所示：</p>
+          <pre class="code">            Jez=ThmbShxAtJepX80c2JY1FzOEmUk
+            lqiao=TfkgShslgJepX80c2JY1trwEskT
+          </pre>
+      </div>
+    
+    <a class="goto-top" href="#top">top</a>
+
+    <div id="admins" class="section">
+      <h2>&lt;admins&gt;</h2>
+      <p>
+&lt;admins&gt; 元素用于指定Cruise的管理员。只有管理员才可以通过Administration页面对Cruise的配置进行管理。</p>
+      <strong>注意：</strong>
+      <p>如果你想指定管理员，你至少要指定, &lt;ldap&gt; 和 &lt;passwordFile&gt;之一。</p>
+    </div>    
+    <a class="goto-top" href="#top">top</a>
+    <div id="user" class="section">
+      <h2>&lt;user&gt;</h2>
+      <p>一个&lt;user&gt; 元素指定一个管理员。&lt;user&gt; 元素的个数不限。</p>
+      <strong>注意：</strong>
+      <ol>
+        <li>用户名必须存在于你的LDAP服务器或passwordFile中。</li> 
+        <li>Cruise尚不支持使用Groups来指定管理员，也不能为某个Pipeline指定管理员。</li>
+        <li>如果在LDAP和password文件中有同名用户，那么这两个用户都是管理员。</li>
+      <ol>
+      <h3>示例</h3>
+          <p>想指定用户<strong>Jez</strong> 和 <strong>lqiao</strong>都是管理员的话，则配置如下：</p>
+          <pre class="code">&lt;admins&gt;
+  &lt;user&gt;Jez&lt;/user&gt;
+  &lt;user&gt;lqiao&lt;/user&gt;
+&lt;/admins&gt;
+          </pre>
+      </ol></ol></div>
+
+      
+    <a class="goto-top" href="#top">top</a>
+    
+    
+    <div id="pipelines" class="section">
+      <h2>&lt;pipelines&gt;</h2>
+      <p>&lt;pipelines&gt; 元素是所有pipeline的容器。</p>
+    </div>
+
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="pipeline" class="section">
+      <h2>&lt;pipeline&gt;</h2>
+      <p>&lt;pipeline&gt;元素包含一个Pipeline的所有配置信息。</p>
+      <strong>注意：</strong>
+      <p>一个Pipeline中至少要有一个Stage。Cruise使用pipeline的名字做为标识符，如果你修改了pipeline的名字，这个Pipeline的构建历史就会丢失了。</p>
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>name</td>
+            <td>是</td>
+            <td>Pipeline的名字，必须是唯一的，大小写不敏感。名字所用的字符可以是：a-z, A-Z,
+0-9, 点, 下划线和中划线。注意，不能包括空格。</td>
+          </tr>
+          <tr>
+            <td>labeltemplate</td>
+            <td>否</td>
+            <td>您可以使用${COUNT}来设定您的Pipeline的标签。如果不设定的话，默认值为'${COUNT}'。例如，当您设定了标签的属性值为foo-1.0-${COUNT}时（labeltemplate="foo-1.0-${COUNT}"），那么该Pipeline的实例序号将以如下方式增长，foo-1.0-1、foo-1.0-2、foo-1.0-3 ... ...注意，在该属性值中${COUNT}只能出现一次，而且必须是大写字母。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="goto-top" href="#top">top</a>
+    <div id="dependencies" class="section">
+      <h2>&lt;dependencies&gt;</h2>
+      <p>
+&lt;dependencies&gt; 元素用于描述Pipeline之间的依赖关系。所谓依赖关系，是指该Pipeline可以被其它Pipeline中某个成功运行结束的Stage触发而进行自动化的构建。如果在该Pipeline中定义了多个依赖关系，那么只要任意一个依赖关系中的Stage成功完成的话，都会触发该Pipeline的构建。值得注意的是，假如该Pipeline的第一个Stage正在运行，此时某依赖stage触发该Pipeline的话，这个触发将在当前正在运行的第一个Stage结束之后才会被执行。</p>
+    </div>
+    <a class="goto-top" href="#top">top</a>
+    <div id="depends" class="section">
+      <h2>&lt;depends&gt;</h2>
+      <p>&lt;depends&gt;用于指定当前的Pipeline可以由哪个Pipeline的哪个Stage触发进行构建。</p>
+
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>pipeline</td>
+            <td>是</td>
+            <td>所依赖的Pipeline的名字。</td>
+          </tr>
+          <tr>
+            <td>stage</td>
+            <td>是</td>
+            <td>所依赖的Stage的名字。</td>
+          </tr>
+        </tbody>
+      </table>
+    <h3>示例</h3>
+      <p>假如有四个Pipeline，它们分别名为commonLib1，commonLib2，Server和Client，并且在CommonLib1中的'distStage'可以触发Server和Client这两个Pipeline，而CommonLib2中的'pkgstage'可以触发Server这个pipeline，那么配置文件中应该这么写：</p>
+      <pre class="code">&lt;pipeline name="commonLib1"&gt;
+      ...
+  &lt;stage name="unittest"&gt;
+       ...
+  &lt;/stage&gt;
+  &lt;stage name="distStage"&gt;
+       ...
+  &lt;/stage&gt;
+  &lt;stage name="publishStage"&gt;
+       ...
+  &lt;/stage&gt;
+&lt;pipeline name="commonLib1"&gt;
+      ...
+  &lt;stage name="unittest"&gt;
+       ...
+  &lt;/stage&gt;
+  &lt;stage name="functionaltest"&gt;
+       ...
+  &lt;/stage&gt;
+  &lt;stage name="pkgStage"&gt;
+       ...
+  &lt;/stage&gt;
+&lt;/pipeline&gt;
+&lt;pipeline name="Server"&gt;
+  &lt;dependencies&gt;
+    &lt;depends pipeline="commonLib1" stage="distStage"/&gt;
+    &lt;depends pipeline="commonLib2" stage="pkgStage"/&gt;
+  &lt;/dependencies&gt;
+       ...
+&lt;/pipeline&gt;
+&lt;pipeline name="Client"&gt;
+  &lt;dependencies&gt;
+    &lt;depends pipeline="commonLib1" stage="distStage"/&gt;
+  &lt;/dependencies&gt;
+       ...
+&lt;/pipeline&gt;
+      </pre>
+    </div>
+    <a class="goto-top" href="#top">top</a>
+    <div id="stage" class="section">
+      <h2>&lt;stage&gt;</h2>
+      <p>
+&lt;stage&gt; 元素由一组构建工作（Job）组成。如果某个Stage中的任何一个构建工作（Job）失败了，都意味着这个Stage失败了。如果在当前Stage中使用&lt;approval&gt;子元素指定为手动批准的话，那么即使当前Stage成功了，也需要用户手动触发下一个Stage。</p>
+      <strong>注意：</strong>
+      <p>一个Stage中至少要有一个构建工作（Job）。</p>
+
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>name</td>
+            <td>是</td>
+            <td>Stage的名称，作为该Pipeline中识别该Stage的唯一标识，所以在这个Pipeline中是唯一的。在名称中可以使用如下字符：a-z, A-Z, 0-9,
+点，下划线和减号。不允许有空格，大小写敏感。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="materials" class="section">
+      <h2>&lt;materials&gt;</h2>
+      <p>
+&lt;materials&gt; 元素用于描述Pipeline的原材料（即源代码仓库）。Cruise会根据这个&lt;materials&gt;侦测代码的改变，以及检出源代码进行构建。</p>
+      <strong>注意：</strong>
+      <p>现在Cruise不支持为同一个Pipeline指定多个materials，所以只能指定一个源代码仓库，可以用subversion，也可以用mercurial。Cruise每分钟（非严格遵守）检查一次代码仓库，看其是否有变更，目前还不支持自定义的时间间隔。</p>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="svn" class="section">
+      <h2>&lt;svn&gt;</h2>
+      <p>&lt;svn&gt; 元素用于定义您所需持续集成的代码仓库信息。Cruise仅支持远程仓库（并不像CruiseControl那样支持LocalWorkingCopy），所以您并不需要象CruiseControl那样先手工检出代码。Cruise支持Subversion的四种通信协议：http, https, svn and svn+ssh。</p>
+      <h3>注意</h3>
+      <p>一般来说，您不用在Server和Agent端安装Subversion，但是假如你使用HTTPS协议，您还要先要在Server和Agent端，利用用户名"Cruise"运行一下命令 SVN UP，并永久接受数字证书。</p>
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>url</td>
+            <td>是</td>
+            <td>SVN代码仓库的URL。</td>
+          </tr>
+          <tr class="even">
+            <td>username</td>
+            <td>否</td>
+            <td>SVN中的用户名，Cruise用其检出代码。如果SVN代码仓库可以匿名检出，则可以设定为空。</td>
+          </tr>
+          <tr class="odd">
+            <td>password</td>
+            <td>否</td>
+            <td>所用SVN用户的密码。</td>
+          </tr>
+          <tr class="even">
+            <td>checkexternals</td>
+            <td>否</td>
+            <td>Cruise发现SVN External发生变化后，是否触发构建。该属性的取值应为[true, 1, false, 0]其中之一。默认值是false，即External的变化不触发构建。<strong>注意：</strong>如果SVN代码仓库包含SVN:external的定义，Cruise每次构建时都后External更新到最新版本。而且当该属性值为true或1时，如果Cruise侦测到External的变化，将会触发构建，并在修改集(modifications)中显示第一级External的文件修改记录。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="hg" class="section">
+      <h2>&lt;hg&gt;</h2>
+      <p>
+&lt;hg&gt; 元素用于定义您所需持续集成的Mercurial代码仓库信息。Cruise仅支持远程仓库（并不像CruiseControl那样支持LocalWorkingCopy），所以您并不需要象CruiseControl那样先手工检出代码。Cruise支持Mercurial的两种通信协议：http, 和 ssh。</p>
+      <h3>注意</h3>
+      <p>在Cruise的安装包中并不包含Mercurial，所以您如果使用Mercurial的话，要自行在Server和Agent端安装Mercurial。我们建议安装1.0以上版本，由于低于1.0的版本不支持"hg id"命令，所以在增加新Pipeline并对Repository进行连接检测时会失败，但这并不影响Cruise使用Mercurial1.0以下版本进行构建。</p>
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>url</td>
+            <td>是</td>
+            <td>Mercurial远端仓库的URL。如果您为Mercurial远端仓库指定了用户名和密码的话，你必须将其放在这个URL中。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <a class="goto-top" href="#top">top</a>
+
+    <div id="jobs" class="section">
+      <h2>&lt;jobs&gt;</h2>
+      <p>&lt;jobs&gt; 元素是在某个Stage中一组构建工作(Job)的集合。</p>
+      <strong>注意：</strong>
+      <p>&lt;jobs&gt;可以包含多个&lt;job&gt; 元素，而这些构建工作可以在不同的Agent上并行且独立地执行（参见 &lt;agent&gt;
+元素）。</p>
+    </div>
+
+    <a class="goto-top" href="#top">top</a>
+
+    <div id="job" class="section">
+      <h2>&lt;job&gt;</h2>
+      <p>一个&lt;job&gt; 就是一个基本的构建工作单元，它会被Server指派给某个Agent进行构建。而这个Agent会自行将源代码更新的指定的版本上进行构建，构建结束后会将构建结果以及构建生成的工件(参见&lt;artifacts&gt;)送回到Server端，并保存到Server端指定的artifactdir中(参见&lt;Server&gt;)。</p>
+      <h3>注意：</h3>
+      <p>如果你希望某个构建工作(Job)在指定的Agent上运行，你必须指定&lt;resources&gt;。这样，Cruise会将其指派给提供同样资源(Resoruces)的Agent去构建。</p>
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>name</td>
+            <td>是</td>
+            <td>同一个Stage中，Job的名字必须是唯一的，可以使用下列字符：a-z, A-Z, 0-9, 句号，下划线和减号。空格是不允许的，而且大小写不敏感。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="resources" class="section">
+      <h2>&lt;resources&gt;</h2>
+      <p>&lt;resources&gt; 用于指定该构建工作(Job)需要哪些特定资源集。</p>
+      <strong>注意：</strong>
+      <p>如果一个构建工作(Job)没有指定资源集(Resources)，它可能在任何一个Agent进行构建。</p>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="resource" class="section">
+      <h2>&lt;resource&gt;</h2>
+      <p>一个&lt;resource&gt;代表该构建工作所需要的一种资源。</p>
+      
+      <p>资源名称小可以使用以下字符：a-z， A-Z， 0-9，点，下划线和减号，但空格是不允许的，而且大小写不敏感。</p>
+      <strong>注意：</strong>
+      <p>你可以为一个构建工作(Job)定义多个资源，一个&lt;resource&gt;元素定义一种资源。只有那些包含所有这些资源声明的Agent才能执行这个构建工作(Job)。</p>
+      <h3>示例：</h3>
+          <pre class="code">&lt;resources&gt;
+  &lt;resource&gt;jdk5&lt;/resource&gt;
+  &lt;resoucre&gt;tomcat5&lt;/resource&gt;
+  &lt;resoucre&gt;mercurial&lt;/resource&gt;
+&lt;/resources&gt;
+          </pre>
+    </div>
+
+    <a class="goto-top" href="#top">top</a>
+
+    <div id="tasks" class="section">
+      <h2>&lt;tasks&gt;</h2>
+      <p>&lt;tasks&gt; 是一个构建工作(Job)将要执行的一个任务序列。当该构建工作在某个Agent上运行时，下面的环境变量是可以直接使用的：</p>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>变量名</th>
+            <th>变量说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>CRUISE_SERVER_URL</td>
+            <td>Cruise Server的基本URL（要包括 /cruise），所以它应该类似于：https://[Cruise Server host]:8154/cruise</td>
+          </tr>
+          <tr class="even">
+            <td>CRUISE_PIPELINE_LABEL</td>
+            <td>当前Pipeline的标签。默认情况下是Pipeline的记数器，您可以在Pipeline的配置中使用labeltemplate来设置标签的模式（参见 &lt; pipeline &gt;）。</td>
+          </tr>
+          <tr class="odd">
+            <td>CRUISE_PIPELINE_NAME</td>
+            <td>当前正在运行的构建工作所属的Pipeline的名字。</td>
+          </tr>
+          <tr class="even">
+            <td>CRUISE_STAGE_NAME</td>
+            <td>当前正在运行的构建工作所属的Stage的名字</td>
+          </tr>
+          <tr class="odd">
+            <td>CRUISE_JOB_NAME</td>
+            <td>当前正在运行的构建工作的名字。</td>
+          </tr>
+        </tbody>
+      </table>
+      <strong>注意：</strong>
+      <p>您可以定义多个任务(task)。所有的任务（task）将按配置文件中的顺序在Agent端执行。如果某个任务（task）失败了，后续的任务不再被执行。另外，尽管你可以定义多个任务，但最好使用单一任务(task)。根据您的实际情况，您可以把每一个任务(task)写成一个构建工作(Job)，也可以在您的构建脚本中将这些任务(task)封装成一个Target来运行。</p>
+      <strong>另外，</strong>
+      <p>下面所用的所有路径都是相对路径，而且以你的Materials的根目录为基础的相对路径。</p>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="ant" class="section">
+      <h2>&lt;ant&gt;</h2>
+      <p>指定一个Ant build 来运行。Cruise安装包中自带apache-ant-1.7.0，并会使用这个版本来运行ANT 脚本。而且Cruise依赖并使用JDK 1.6，如果你需要JDK1.4或JDK1.5的话，请在您的Ant 中使用这样的<a href="http://ant.apache.org/manual/CoreTasks/javac.html">javac</a> 任务。</p>
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>buildfile</td>
+            <td>No (defaults to build.xml)</td>
+            <td>Ant的构建脚本路径及文件名。</td>
+          </tr>
+          <tr class="even">
+            <td>target</td>
+            <td>否</td>
+            <td>Ant target(s) to run. 不指定的话，使用ANT构建脚本中的默认Target。</td>
+          </tr>
+          <tr class="odd">
+            <td>WorkingDir</td>
+            <td>否</td>
+            <td>在这个指定的目录中调用 ANT。只有相对于你的Materials的目录才是有效的。</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>示例</h3>
+      <ol>
+        <li>
+          <p>Invoke ant, specifying a set of targets to run:</p>
+          <pre class="code">&lt;ant target="-Drun=all clean.ivy.localivy clean ft.long_running" /&gt;
+          </pre>
+        </li>
+        <li>
+          <p>Invoke ant in a specific working directory with a specific set of targets:</p>
+          <pre class="code">&lt;ant workingdir="build" buildfile="mybuild.xml" target="-Drun=all clean.ivy.localivy clean ft.long_running" /&gt;
+          </pre>
+        </li>
+      </ol>
+    </div>
+
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="exec" class="section">
+      <h2>&lt;exec&gt;</h2>
+      <p>运行一个指定的命令。如果这个命令不能运行或返回错误代码(-1)，则Cruise认为这个构建工作失败了。</p>
+      
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>command</td>
+            <td>是</td>
+            <td>将被执行的命令或shell脚本，相对于工作目录。</td>
+          </tr>
+          <tr class="even">
+            <td>args</td>
+            <td>否</td>
+            <td>将要传给该命令的一个参数集（写在一个字符串就可以）。</td>
+          </tr>
+          <tr class="odd">
+            <td>workingdir</td>
+            <td>否</td>
+            <td>工作目录，命令或脚本将在这个目录中被执行。默认目录是源代码在这个Agent上检出的目录。</td>
+          </tr>
+          <tr class="even">
+            <td>timeout</td>
+            <td>否</td>
+            <td>如果该命令的运行时间长于指定的时间，则该命令将被取消。该属性以秒为单位。</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <h3>示例</h3>
+      <ol>
+        <li>
+          <p>Invoke ruby, specifying the working directory as <strong>/workspace/MyCodebase</strong> and executing the ruby script <strong>backup.rb</strong>.</p>
+          <pre class="code">&lt;tasks&gt;
+  &lt;exec workingdir=""  
+             command="/usr/local/bin/ruby"
+             args="backup.rb"/&gt;
+&lt;/tasks&gt;
+          </pre>
+        </li>
+      </ol>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="nant" class="section">
+      <h2>&lt;nant&gt;</h2>
+      <p>执行Nant的构建脚本。Cruise并不包含Nant，所以您必须手工在Agent端安装您所需要的Nant版本。</p>
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>buildfile</td>
+            <td>No (defaults to default.build)</td>
+            <td>包含build file文件名的相对路径（相对于构建工作(Job)的工作目录，即Agent端的Checkout目录）。</td>
+          </tr>
+          <tr class="even">
+            <td>target</td>
+            <td>否</td>
+            <td>被执行的target(s)。如果不设定的话，Cruise将运行Build File中的默认target。</td>
+          </tr>
+          <tr class="odd">
+            <td>Workingdir</td>
+            <td>否</td>
+            <td>在该相对目录下调用Nant。</td>
+          </tr>
+          <tr class="even">
+            <td>nantpath</td>
+            <td>否</td>
+            <td>Nant的安装目录。默认情况下，Cruise将认为Nant被安装在Checkout代码的根目录中。<strong>注意：</strong>如果你指定了这个属性，请确保NANT被安装在所有可以运行这个构建工作(Job)的Agent上的相同目录下。</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>示例</h3>
+      <ol>
+        <li>
+          <p>Invoke nant, specifying a set of targets to run:</p>
+<pre class="code">&lt;nant buildfile="myproject.build" target="unit-test smoke-test" /&gt;          
+</pre>
+        </li>
+      </ol>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    <div id="rake" class="section">
+      <h2>&lt;rake&gt;</h2>
+      <p>使用Rake进行构建。Cruise并不包含Rake，如果您要构建Ruby项目的话，您需要在Agent端自行安装Rake。</p>
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>buildfile</td>
+            <td>否</td>
+            <td>包括build file文件名的相对路径。</td>
+          </tr>
+          <tr class="even">
+            <td>target</td>
+            <td>否</td>
+            <td>需要执行的target(s)。如果不指定，Cruise将执行build file中默认的target。</td>
+          </tr>
+          <tr class="odd">
+            <td>workingdir</td>
+            <td>否</td>
+            <td>Cruise将在该目录下调用Rake。该属性相对于构建工作(Job)的工作目录。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+
+    <div id="artifacts" class="section">
+      <h2>&lt;artifacts&gt;</h2>
+      <p>&lt;artifacts&gt; 元素用于指定该构建工作(Job)在Agent端执行完以后，哪些artifacts将会被保存在Server端。</p>
+    </div>
+
+    <a class="goto-top" href="#top">top</a>
+
+    <div id="artifact" class="section">
+      <h2>&lt;artifact&gt;</h2>
+      <p>将构建工作(JOb)生成的文件保存到Server端。</p>
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>src</td>
+            <td>是</td>
+            <td>src属性应指向那些在Agent生成却需要被保存在Server端的文件或目录。Cruise会把它们保存在Server端，这样，即使Agent关机或挪做它用时，您也不会因些而丢失历史数据。需要注意的是，这个属性只能是以Agent端Checkout代码的目录为根的相对路径，而且不允许包括“.”或“/..”这样的路径。</td>
+          </tr>
+          <tr class="even">
+            <td>dest</td>
+            <td>否</td>
+            <td>dest属性应指向Server端的相对于artifactdir的目录（注意：不能指定文件名）。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="test" class="section">
+      <h2>&lt;test&gt;</h2>
+      <p>src属性应指向包含测试输出文件的目录。Cruise会用这些文件生成测试报告。测试结果将在Job Details页面的Test Tab和Failures Tab，并且在Stage details 页面会显示该Stage下所有构建工作(Job)的测试结果。</p>
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>src</td>
+            <td>是</td>
+            <td>指定在Agent端当前构建工作(Job)所产生的test output所在目录。该属性使用相对目录，其根目录为当前构建工作(Job)的源目录。</td>
+          </tr>
+          <tr class="even">
+            <td>dest</td>
+            <td>否</td>
+            <td>指定在Server端存储artifacts目录下的相对目录。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="goto-top" href="#top">top</a>
+
+    <div id="tabs" class="section">
+      <h2>&lt;tabs&gt;</h2>
+      <p>
+      &lt;tabs&gt; 元素让你可以在Job Details页面中自定义sub-tab。你可以将任何一个artifact放在一个tab中。例如，当你的覆盖率工具生成了一组HTML报告以后，你可以很容易地将它显示在一个tab中。</p>
+    </div>
+    <a class="goto-top" href="#top">top</a>
+
+    <div id="tab" class="section">
+      <h2>&lt;tab&gt;</h2>
+      <p>定义一个tab，并为其指定名称及需要显示哪个文件。</p>
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>name</td>
+            <td>是</td>
+            <td>Tab的名称，应该具有唯一性。</td>
+          </tr>
+          <tr class="even">
+            <td>path</td>
+            <td>是</td>
+            <td>文件的相对路径。</td>
+          </tr>
+        </tbody>
+      </table>
+    <h3>示例：</h3>
+    <p>假如，覆盖率信息位于Agent端源代码根目录下的'target/Jcoverage'文件夹中，而其中的一个索引文件，名为index.html。我们可以通过如下配置，使覆盖率信息显示在build detail页面的sub-tab中。</p>
+    <pre class="code">&lt;artifacts&gt;
+    &lt;artifact src="target/jcoverage" dest="Jcoverage"&gt;
+&lt;/artifacts&gt; 
+&lt;tabs&gt;
+    &lt;tab src="coverage" path="Jcoverage/index.html"&gt;
+&lt;/tabs&gt; 
+    </pre>
+
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+
+    <div id="approval" class="section">
+      <h2>&lt;approval&gt;</h2>
+      <p>您可以使用&lt;approval&gt;来指定：当该Stage结束时，这个Pipeline将停在这里，无论这个Stage成功与否。只有您在Pipeline Activities页面才能手工触发下一个Stage。如果没有这个&lt;approval&gt;元素的话，一旦这个Stage成功完成，下一个Stage将自动被触发。</p>
+      <strong>注意：</strong>
+      <p>&lt;approval&gt; must be the last subelement in &lt;stage&gt;</p>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+
+    <div id="agents" class="section">
+      <h2>&lt;agents&gt;</h2>
+      <p> &lt;agents&gt; 元素是已被Server批准的Agent的集合。</p>
+      <strong>注意：</strong>
+      <p>不要手工修改它。</p>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="agent" class="section">
+      <h2>&lt;agent&gt;</h2>
+      <p>一个已被批准的agent。在被批准之前，这个Agent显示在Agent列表的最顶端，是灰色条。</p>
+      <h3>属性集合</h3>
+      <table>
+        <thead>
+          <tr class="table-header">
+            <th>属性名</th>
+            <th>是否必填</th>
+            <th>属性说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="odd">
+            <td>hostname</td>
+            <td>是</td>
+            <td>Agent的主机名</td>
+          </tr>
+          <tr class="even">
+            <td>ipaddress</td>
+            <td>是</td>
+            <td>Agent的IP地址。</td>
+          </tr>
+          <tr class="odd">
+            <td>uuid</td>
+            <td>是</td>
+            <td>Agent的标识符，Cruise自动生成，不可修改。</td>
+          </tr>
+        </tbody>
+      </table>
+      <h3>注意：</h3>
+      <p>Cruise 使用Agent的hostname作为它们的标识。</p>
+      <p>与Server同在一台机器上的Agent将被自动批准。</p>
+      </div>
+
+    <a class="goto-top" href="#top">top</a>
+
+    <div id="agentresources" class="section">
+      <h2>&lt;resources&gt;</h2>
+      <p>&lt;resources&gt; 描述了该Agent所能提供的资源集合。</p>
+      <strong>注意</strong>
+      <p>在没有资源声明的Agent上，只能运行那些没有资源声明的构建工作(Job)。参见<a href="#job">&lt;job&gt;</a>中的<a href="#resources">&lt;resources&gt;</a></p>
+    </div>
+    
+    <a class="goto-top" href="#top">top</a>
+    
+    <div id="agentresource" class="section">
+      <h2>&lt;resource&gt;</h2>
+      <p>资源名称，命名规则与Job中的Resource相同。</p>
+    </div>
+  </div><!--main-content-->
+</body>

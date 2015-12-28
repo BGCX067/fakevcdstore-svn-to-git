@@ -1,0 +1,10 @@
+#parse("/tab/header.vm")
+<div id="bd">
+<form method="post" action="userLogin.action">
+<p align="left">login</p>
+<br>
+This is a vcd store<br>
+</form>
+</div>
+<!-- end bd -->
+#parse("/tab/footer.vm")
